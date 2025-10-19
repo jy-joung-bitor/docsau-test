@@ -1,16 +1,19 @@
 import Tabs, { Props } from "@theme/Tabs";
-import { usePrisma, usePrismaDispatch } from "./PrismaContext";
+import { usePrismaDispatch } from "./PrismaContext";
 import { useEffect } from "react";
 
-export default function PrismaTabs({ groupId, ...props }: Props & { groupId: string }) {
-    // const settings = usePrisma();
-    const dispatch = usePrismaDispatch();
-    const tabs = <Tabs {...props} groupId={groupId} queryString />;
+type RequiredType = {
+    groupId: string;
+    queryString: true;
+}
 
+export default function PrismaTabs(props: Props & RequiredType) {
+    const dispatch = usePrismaDispatch();
     useEffect(() => {
-        dispatch({ type: 'register', settings: tabs.props });
-        return () => { dispatch({ type: 'unregister', settings: props }); };
+        const settings = props;
+        dispatch({ type: 'register', settings });
+        return () => { dispatch({ type: 'unregister', settings }); };
     }, []);
 
-    return tabs;
+    return <Tabs {...props} />;
 }
