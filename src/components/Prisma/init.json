@@ -1,4 +1,4 @@
 {
     "Language": [ "TypeScript", "JavaScript" ],
-    "Database": [ "Prisma Postgres", "PostgreSQL", "MySQL", "SQLite" ]
+    "Database": [ "Prisma Postgres", "PostgreSQL", "MySQL", "SQLite", "SQL Server" ]
 }

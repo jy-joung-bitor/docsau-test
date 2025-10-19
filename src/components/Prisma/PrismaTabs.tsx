@@ -2,18 +2,17 @@ import Tabs, { Props } from "@theme/Tabs";
 import { usePrismaDispatch } from "./PrismaContext";
 import { useEffect } from "react";
 
-type RequiredType = {
+interface RequiredType {
     groupId: string;
-    queryString: true;
 }
 
-export default function PrismaTabs(props: Props & RequiredType) {
+export default function PrismaTabs(props: Omit<Props, 'queryString'> & RequiredType) {
     const dispatch = usePrismaDispatch();
+    const settings = { ...props, queryString: true};
     useEffect(() => {
-        const settings = props;
         dispatch({ type: 'register', settings });
         return () => { dispatch({ type: 'unregister', settings }); };
     }, []);
 
-    return <Tabs {...props} />;
+    return <Tabs {...settings} />;
 }

@@ -1,11 +1,10 @@
 import { createContext, useContext, useReducer } from 'react';
 import { Props } from '@theme/Tabs';
 
-type PrismaSettings = {
-    [groupId: string]: Props;
-}
+type ActionType = 'register' | 'unregister';
+type PrismaSettings = Record<string, Props>;
 type PrismaSettingsAction = {
-    type: 'register' | 'unregister';
+    type: ActionType;
     settings: Props;
 }
 
