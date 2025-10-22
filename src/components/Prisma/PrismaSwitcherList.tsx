@@ -42,7 +42,7 @@ export default function PrismaSwitcherList() {
     const entries = Object.entries(settings);
 
     return (
-        <div>
+        <div className="prisma-switcher-list">
             {entries
                 .filter(([groupId]) => init[groupId as keyof typeof init])
                 .map(

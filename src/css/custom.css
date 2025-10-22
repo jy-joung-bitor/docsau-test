@@ -35,6 +35,8 @@
 
 .react-aria-Select :not(.react-aria-Label) {
     font-size: 16px;
+    font-weight: normal;
+    color: white;
     text-align: left;
     & img {
         width: 24px;
@@ -43,6 +45,7 @@
 }
 .react-aria-Label {
     display: block;
+    color: white;
 }
 .react-aria-Popover {
     background-color: gray;
@@ -51,5 +54,14 @@
     padding: 8px;
     &:focus {
         border-color: lightgray;
+        color: black;
     }
+}
+
+.prisma-switcher-list {
+    display: flex;
+    position: sticky;
+    top: calc(var(--ifm-navbar-height) + 1rem);
+    background-color: black;
+    z-index: 10;
 }
