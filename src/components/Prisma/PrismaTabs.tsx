@@ -10,8 +10,9 @@ export default function PrismaTabs(props: Omit<Props, 'queryString'> & RequiredT
     const dispatch = usePrismaDispatch();
     const settings = { ...props, queryString: true};
     useEffect(() => {
-        dispatch({ type: 'register', settings });
-        return () => { dispatch({ type: 'unregister', settings }); };
+        const { groupId } = settings;
+        dispatch({ [groupId]: settings });
+        return () => { dispatch(groupId); };
     }, []);
 
     return <Tabs {...settings} />;

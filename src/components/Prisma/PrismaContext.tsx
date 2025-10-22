@@ -1,38 +1,22 @@
-import { createContext, useContext, useReducer } from 'react';
+import { ActionDispatch, createContext, ReactNode, useContext, useReducer } from 'react';
 import { Props } from '@theme/Tabs';
 
-type ActionType = 'register' | 'unregister';
 type PrismaSettings = Record<string, Props>;
-type PrismaSettingsAction = {
-    type: ActionType;
-    settings: Props;
-}
+type PrismaAction = string | PrismaSettings;
 
-function prismaReducer(settings: PrismaSettings, action: PrismaSettingsAction): PrismaSettings {
-    const { type,  settings: {  groupId } } = action;
-    switch (type) {
-        case 'register': {
-            return { 
-                ...settings, 
-                [groupId]: action.settings 
-            };
-        }
-        case 'unregister': {
-            const { 
-                [groupId]: _, 
-                ...others 
-            } = settings;
-
-            return others;
-        }
-        default: {
-            throw Error('Unknown action: ' + type);
-        }
+function prismaReducer(settings: PrismaSettings, action: PrismaAction) {
+    if (typeof(action) === "string") {
+        const {[action]: _, ...others} = settings;
+        return others;
+    }
+    return {
+        ...settings,
+        ...action,
     }
 }
 
-const PrismaContext = createContext<PrismaSettings>({});
-const PrismaDispatcherContext = createContext<React.ActionDispatch<[PrismaSettingsAction]>>(null);
+const PrismaContext = createContext<PrismaSettings>(null);
+const PrismaDispatcherContext = createContext<ActionDispatch<[PrismaAction]>>(null);
 export function usePrisma() {
     return useContext(PrismaContext);
 }
@@ -40,7 +24,7 @@ export function usePrismaDispatch() {
     return useContext(PrismaDispatcherContext);
 }
 
-export default function PrismaProvider({ children }: { children: React.ReactNode }) {
+export default function PrismaProvider({ children }: { children: ReactNode }) {
     const [state, dispatch] = useReducer(prismaReducer, {});
     return (
         <PrismaContext value={state}>
